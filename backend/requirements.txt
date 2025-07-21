@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+openai
+faiss-cpu
+transformers
+sentence-transformers
+torch
+torchvision
+pillow
+python-multipart
+accelerate
