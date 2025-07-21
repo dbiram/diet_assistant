@@ -1,9 +1,9 @@
 from app.rag.vector_store import retrieve_top_k
 from app.rag.generator import generate_text
 
-def generate_answer(question: str) -> str:
+def generate_answer(profile: dict, question: str) -> str:
     # Retrieve relevant documents
-    retrieved_docs = retrieve_top_k(question, k=3)
+    retrieved_docs = retrieve_top_k(profile, question, k=3)
     context = "\n".join(retrieved_docs)
 
     # Build prompt

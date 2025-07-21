@@ -18,6 +18,12 @@ embedding_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en")
 # Create FAISS vector store
 vector_store = FAISS.from_documents(documents, embedding_model)
 
-def retrieve_top_k(query: str, k=3):
-    results = vector_store.similarity_search(query, k=k)
+def personalize_query(profile: dict, question: str) -> str:
+    profile_str = f"User Profile: {profile['gender']}, {profile['age']} years old, {profile['activity_level']} activity level."
+    return profile_str + " " + question
+
+def retrieve_top_k(profile: dict, question: str, k=3):
+    personalized_query = personalize_query(profile, question)
+    print(personalized_query)
+    results = vector_store.similarity_search(personalized_query, k=k)
     return [doc.page_content for doc in results]

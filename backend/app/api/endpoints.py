@@ -6,8 +6,16 @@ router = APIRouter()
 
 class QuestionRequest(BaseModel):
     question: str
+    age: int
+    gender: str 
+    activity_level: str  # Example: "low", "moderate", "high"
 
 @router.post("/ask_diet_assistant")
 async def ask_diet_assistant(request: QuestionRequest):
-    answer = generate_answer(request.question)
+    profile = {
+        "age": request.age,
+        "gender": request.gender,
+        "activity_level": request.activity_level
+    }
+    answer = generate_answer(profile, request.question)
     return {"answer": answer}
