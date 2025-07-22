@@ -20,6 +20,7 @@ def generate_answer(profile: dict, question: str) -> str:
     # Build prompt
     prompt = (
         f"Here are relevant documents:\n{context}\n\n"
+        f"User's profile:\n{profile}\n\n"
         f"Answer the user's question:\n{question}"
     )
 

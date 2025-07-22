@@ -11,3 +11,4 @@ torchvision
 pillow
 python-multipart
 accelerate
+rank_bm25
