@@ -1,21 +1,31 @@
 from app.rag.vector_store import (
     retrieve_dense_top_k,
-    retrieve_sparse_top_k
+    retrieve_sparse_top_k,
+    personalize_query
 )
+from app.rag.reranker import rerank
 from app.rag.generator import generate_text
 
-def hybrid_retrieve_top_k(profile: dict, question: str, k=5):
-    dense_results = retrieve_dense_top_k(profile, question, k=k)
-    sparse_results = retrieve_sparse_top_k(profile, question, k=k)
+def hybrid_retrieve_with_rerank(profile: dict, question: str, initial_k=20, rerank_top_k=3):
+    # Run dense and sparse retrieval (both profile-aware)
+    dense_results = retrieve_dense_top_k(profile, question, k=initial_k)
+    sparse_results = retrieve_sparse_top_k(profile, question, k=initial_k)
 
     # Merge + deduplicate
     combined_results = list(set(dense_results + sparse_results))
-    return combined_results[:k]
+
+    # Rerank merged passages using profile-aware query
+    personalized_query = personalize_query(profile, question)
+    final_passages = rerank(personalized_query, combined_results, top_k=rerank_top_k)
+
+    return final_passages
 
 def generate_answer(profile: dict, question: str) -> str:
     # Retrieve relevant documents
-    retrieved_docs = hybrid_retrieve_top_k(profile, question, k=3)
+    retrieved_docs = hybrid_retrieve_with_rerank(profile, question)
     context = "\n".join(retrieved_docs)
+
+    print(f"Retrieved context:\n{context}\n")
 
     # Build prompt
     prompt = (
