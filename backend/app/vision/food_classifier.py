@@ -1,21 +1,25 @@
 import torch
-from torchvision import models
-import json
-from app.vision.utils import load_and_preprocess_image
-import requests
+from transformers import AutoFeatureExtractor, AutoModelForImageClassification
+from PIL import Image
 
-# Load model (MobileNetV2, pretrained on ImageNet)
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model = models.mobilenet_v2(pretrained=True).to(device)
+
+# Load Food-101 fine-tuned model
+model_id = "nateraw/vit-base-food101"
+extractor = AutoFeatureExtractor.from_pretrained(model_id)
+model = AutoModelForImageClassification.from_pretrained(model_id).to(device)
 model.eval()
 
-# Load class labels from ImageNet
-response = requests.get("https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt")
-imagenet_labels = response.text.strip().splitlines()
+# Load Food-101 class labels
+id2label = model.config.id2label
 
 def classify_food(image_file) -> str:
-    input_tensor = load_and_preprocess_image(image_file).to(device)
+    image = Image.open(image_file).convert("RGB")
+    inputs = extractor(images=image, return_tensors="pt").to(device)
+
     with torch.no_grad():
-        outputs = model(input_tensor)
-    _, predicted_idx = torch.max(outputs, 1)
-    return imagenet_labels[predicted_idx.item()]
+        outputs = model(**inputs)
+        predicted_idx = outputs.logits.argmax(-1).item()
+
+    return id2label[predicted_idx].replace("_", " ")

@@ -12,3 +12,4 @@ pillow
 python-multipart
 accelerate
 rank_bm25
+timm
