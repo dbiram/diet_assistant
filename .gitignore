@@ -21,6 +21,7 @@ Thumbs.db
 
 # Data artifacts
 /data/*
+*.db
 
 # Model files (if stored locally)
 *.pt
