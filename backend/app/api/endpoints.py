@@ -7,10 +7,13 @@ from app.vision.nutrition_lookup import get_nutrition
 from datetime import datetime
 
 from sqlalchemy.orm import Session
-from app.database import SessionLocal, MealLog, WorkoutLog
+from app.database import MealLog, WorkoutLog, get_db
 from app.api.schemas import MealLogInput, WorkoutLogInput
+from backend.app.auth.dependencies import get_current_user
+from backend.app.auth.models import User
+from app.api.services import log_meal_entry, log_workout_entry
 
-router = APIRouter()
+router = APIRouter(prefix="/api")
 
 class QuestionRequest(BaseModel):
     question: str
@@ -37,24 +40,17 @@ async def estimate_nutrition_from_image(file: UploadFile = File(...)):
         "nutrition": nutrition
     }
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 @router.post("/log_meal")
-def log_meal(meal: MealLogInput, db: Session = Depends(get_db)):
-    meal_entry = MealLog(**meal.dict())
+def log_meal(meal: MealLogInput, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    meal_entry = log_meal_entry(user=current_user, db=db, food_name=meal.food_name, calories=meal.calories, protein=meal.protein)
     db.add(meal_entry)
     db.commit()
     db.refresh(meal_entry)
     return {"message": "Meal logged successfully", "id": meal_entry.id}
 
 @router.post("/log_workout")
-def log_workout(workout: WorkoutLogInput, db: Session = Depends(get_db)):
-    workout_entry = WorkoutLog(**workout.dict())
+def log_workout(workout: WorkoutLogInput, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    workout_entry = log_workout_entry(user=current_user, db=db, workout_type=workout.workout_type, duration_minutes=workout.duration_minutes, calories_burned=workout.calories_burned)
     db.add(workout_entry)
     db.commit()
     db.refresh(workout_entry)
@@ -62,17 +58,17 @@ def log_workout(workout: WorkoutLogInput, db: Session = Depends(get_db)):
 
 @router.get("/summary")
 def get_summary(
-    user_id: str,
     start_date: str = Query(None),
     end_date: str = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     # Parse date range if provided
     start = datetime.strptime(start_date, "%Y-%m-%d") if start_date else None
     end = datetime.strptime(end_date, "%Y-%m-%d") if end_date else None
 
     # Filter meal logs
-    meal_query = db.query(MealLog).filter(MealLog.user_id == user_id)
+    meal_query = db.query(MealLog).filter(MealLog.user_id == current_user.id)
     if start:
         meal_query = meal_query.filter(MealLog.timestamp >= start)
     if end:
@@ -80,7 +76,7 @@ def get_summary(
     meals = meal_query.all()
 
     # Filter workout logs
-    workout_query = db.query(WorkoutLog).filter(WorkoutLog.user_id == user_id)
+    workout_query = db.query(WorkoutLog).filter(WorkoutLog.user_id == current_user.id)
     if start:
         workout_query = workout_query.filter(WorkoutLog.timestamp >= start)
     if end:
@@ -93,7 +89,7 @@ def get_summary(
     total_burned = sum(w.calories_burned for w in workouts)
 
     return {
-        "user_id": user_id,
+        "user_id": current_user.id,
         "start_date": start_date,
         "end_date": end_date,
         "total_calories_consumed": total_calories,

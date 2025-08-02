@@ -8,8 +8,11 @@ transformers
 sentence-transformers
 torch
 torchvision
+passlib
 pillow
 python-multipart
+python-jose
 accelerate
 rank_bm25
 timm
+bcrypt
