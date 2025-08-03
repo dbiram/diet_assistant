@@ -14,6 +14,7 @@ from app.auth.models import User
 from app.auth.profile_models import UserProfile
 from app.api.services import log_meal_entry, log_workout_entry, get_daily_summary, suggest_meal
 from app.api.prompt_parser import parse_meal_prompt, parse_workout_prompt, detect_intent
+from app.services.motivator import build_response, get_motivation, get_streak
 
 router = APIRouter(prefix="/api")
 
@@ -67,7 +68,11 @@ def get_summary(
     current_user: User = Depends(get_current_user)
 ):
     today = datetime.utcnow().date()
-    return get_daily_summary(current_user, db, today)
+    summary = get_daily_summary(current_user, db, today)
+    motivation = get_motivation(current_user, db)
+    suggestion = suggest_meal(current_user, db)
+    streak = get_streak(current_user, db)
+    return {"summary": summary, "motivation": motivation, "streak_days": streak, "response": build_response(summary, suggestion, motivation, streak)}
 
 @router.post("/chat")
 def chat(
@@ -108,14 +113,13 @@ def chat(
             )
         return {"response": f"Logged {len(parsed_workouts)} workout(s)."}
 
-    elif intent == "summary":
+    elif intent == "summary" or intent == "suggestion":
         today = datetime.utcnow().date()
         summary = get_daily_summary(current_user, db, today)
-        return {"response": summary}
-
-    elif intent == "suggestion":
         suggestion = suggest_meal(current_user, db)
-        return {"response": suggestion}
+        motivation = get_motivation(current_user, db)
+        streak = get_streak(current_user, db)
+        return {"response": build_response(summary, suggestion, motivation, streak)}
 
     else:  # rag_question fallback
         profile = db.query(UserProfile).filter_by(user_id=current_user.id).first()
