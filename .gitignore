@@ -7,6 +7,13 @@ env/
 .venv/
 .env
 
+# === Node.js ===
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.vite/
+frontend/.next/  
+
 # IDEs and editors
 .vscode/
 .idea/
@@ -19,6 +26,10 @@ Thumbs.db
 # Logs and outputs
 *.log
 *.out
+
+# === Test/coverage artifacts ===
+coverage/
+*.coverage
 
 # Data artifacts
 /data/*
@@ -34,4 +45,5 @@ Thumbs.db
 ~/.cache/huggingface/
 
 # Docker
+*.pid
 docker-compose.override.yml
