@@ -4,6 +4,7 @@ from app.database import init_db
 from app.auth import routes as auth_routes
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
@@ -37,7 +38,13 @@ def custom_openapi():
     return app.openapi_schema
 
 app.openapi = custom_openapi
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Include routes
 app.include_router(endpoints.router)
 app.include_router(auth_routes.router)
