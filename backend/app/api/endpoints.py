@@ -12,7 +12,7 @@ from app.api.schemas import MealLogInput, WorkoutLogInput
 from app.auth.dependencies import get_current_user
 from app.auth.models import User
 from app.auth.profile_models import UserProfile
-from app.api.services import log_meal_entry, log_workout_entry, get_daily_summary
+from app.api.services import log_meal_entry, log_workout_entry, get_daily_summary, suggest_meal
 from app.api.prompt_parser import parse_meal_prompt, parse_workout_prompt, detect_intent
 
 router = APIRouter(prefix="/api")
@@ -114,7 +114,8 @@ def chat(
         return {"response": summary}
 
     elif intent == "suggestion":
-        return {"response": "Suggestion system not implemented yet. Coming soon!"}
+        suggestion = suggest_meal(current_user, db)
+        return {"response": suggestion}
 
     else:  # rag_question fallback
         profile = db.query(UserProfile).filter_by(user_id=current_user.id).first()
