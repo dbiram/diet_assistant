@@ -45,10 +45,8 @@ def multi_hop_retrieve_with_rerank(profile: dict, question: str, initial_k=20, r
 
 def generate_answer(profile: dict, question: str) -> str:
     # Retrieve relevant documents
-    retrieved_docs = multi_hop_retrieve_with_rerank(profile, question, initial_k=30, rerank_top_k=5)
+    retrieved_docs = multi_hop_retrieve_with_rerank(profile, question, initial_k=30, rerank_top_k=3)
     context = "\n".join(retrieved_docs)
-
-    print(f"Retrieved context:\n{context}\n")
 
     # Build prompt
     prompt = (
@@ -57,7 +55,6 @@ def generate_answer(profile: dict, question: str) -> str:
         f"Answer the user's question:\n{question}"
     )
 
-    # Generate answer
     output = generate_text(prompt)
     answer = output.replace(prompt, "").strip()
     return answer

@@ -36,3 +36,10 @@ def create_user_profile(profile: profile_schemas.ProfileCreate,
 @router.get("/me")
 def get_profile(current_user: User = Depends(get_current_user)):
     return {"username": current_user.username, "id": current_user.id}
+
+@router.get("/my_profile", response_model=profile_schemas.ProfileResponse)
+def get_my_profile(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    profile = db.query(profile_models.UserProfile).filter_by(user_id=current_user.id).first()
+    if profile:
+        return profile
+    return {"detail": "Profile not found", "username": current_user.username, "id": current_user.id}

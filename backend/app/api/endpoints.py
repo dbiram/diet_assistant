@@ -9,9 +9,11 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from app.database import MealLog, WorkoutLog, get_db
 from app.api.schemas import MealLogInput, WorkoutLogInput
-from backend.app.auth.dependencies import get_current_user
-from backend.app.auth.models import User
-from app.api.services import log_meal_entry, log_workout_entry
+from app.auth.dependencies import get_current_user
+from app.auth.models import User
+from app.auth.profile_models import UserProfile
+from app.api.services import log_meal_entry, log_workout_entry, get_daily_summary
+from app.api.prompt_parser import parse_meal_prompt, parse_workout_prompt, detect_intent
 
 router = APIRouter(prefix="/api")
 
@@ -20,6 +22,9 @@ class QuestionRequest(BaseModel):
     age: int
     gender: str 
     activity_level: str  # Example: "low", "moderate", "high"
+
+class ChatInput(BaseModel):
+    prompt: str
 
 @router.post("/ask_diet_assistant")
 async def ask_diet_assistant(request: QuestionRequest):
@@ -56,43 +61,69 @@ def log_workout(workout: WorkoutLogInput, db: Session = Depends(get_db), current
     db.refresh(workout_entry)
     return {"message": "Workout logged successfully", "id": workout_entry.id}
 
-@router.get("/summary")
+@router.get("/summary/today")
 def get_summary(
-    start_date: str = Query(None),
-    end_date: str = Query(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    # Parse date range if provided
-    start = datetime.strptime(start_date, "%Y-%m-%d") if start_date else None
-    end = datetime.strptime(end_date, "%Y-%m-%d") if end_date else None
+    today = datetime.utcnow().date()
+    return get_daily_summary(current_user, db, today)
 
-    # Filter meal logs
-    meal_query = db.query(MealLog).filter(MealLog.user_id == current_user.id)
-    if start:
-        meal_query = meal_query.filter(MealLog.timestamp >= start)
-    if end:
-        meal_query = meal_query.filter(MealLog.timestamp <= end)
-    meals = meal_query.all()
+@router.post("/chat")
+def chat(
+    input: ChatInput,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    prompt = input.prompt.strip()
+    intent = detect_intent(prompt)
+    
+    if intent == "meal_log":
+        parsed_items = parse_meal_prompt(prompt)
+        if not parsed_items:
+            return {"response": "Sorry, I couldn't recognize any food items."}
+        
+        for item in parsed_items:
+            log_meal_entry(
+                user=current_user,
+                db=db,
+                food_name=item["food_name"],
+                calories=item["calories"],
+                protein=item["protein"]
+            )
+        return {"response": f"Logged {len(parsed_items)} meal item(s)."}
 
-    # Filter workout logs
-    workout_query = db.query(WorkoutLog).filter(WorkoutLog.user_id == current_user.id)
-    if start:
-        workout_query = workout_query.filter(WorkoutLog.timestamp >= start)
-    if end:
-        workout_query = workout_query.filter(WorkoutLog.timestamp <= end)
-    workouts = workout_query.all()
+    elif intent == "workout_log":
+        parsed_workouts = parse_workout_prompt(prompt)
+        if not parsed_workouts:
+            return {"response": "Sorry, I couldn't recognize the workout details."}
+        
+        for workout in parsed_workouts:
+            log_workout_entry(
+                user=current_user,
+                db=db,
+                workout_type=workout["workout_type"],
+                duration_minutes=workout["duration_minutes"],
+                calories_burned=workout["calories_burned"]
+            )
+        return {"response": f"Logged {len(parsed_workouts)} workout(s)."}
 
-    # Compute totals
-    total_calories = sum(m.calories for m in meals)
-    total_protein = sum(m.protein for m in meals)
-    total_burned = sum(w.calories_burned for w in workouts)
+    elif intent == "summary":
+        today = datetime.utcnow().date()
+        summary = get_daily_summary(current_user, db, today)
+        return {"response": summary}
 
-    return {
-        "user_id": current_user.id,
-        "start_date": start_date,
-        "end_date": end_date,
-        "total_calories_consumed": total_calories,
-        "total_protein_consumed": total_protein,
-        "total_calories_burned": total_burned
-    }
+    elif intent == "suggestion":
+        return {"response": "Suggestion system not implemented yet. Coming soon!"}
+
+    else:  # rag_question fallback
+        profile = db.query(UserProfile).filter_by(user_id=current_user.id).first()
+        if not profile:
+            return {"response": "Please set up your profile first."}
+        profile_dict = {
+            "age": profile.age,
+            "gender": profile.gender,
+            "activity_level": profile.activity_level
+        }
+        answer = generate_answer(profile_dict, prompt)
+        return {"response": answer}
