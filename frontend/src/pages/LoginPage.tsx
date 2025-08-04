@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login as loginAPI } from "../services/AuthService";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -6,11 +6,17 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
 export default function LoginPage() {
+  const { token, login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/chat");
+    }
+  }, [token, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +51,16 @@ export default function LoginPage() {
           Login
         </Button>
       </form>
+      <p className="text-sm text-center">
+        Don’t have an account?{" "}
+        <button
+          type="button"
+          onClick={() => navigate("/register")}
+          className="text-green-600 hover:underline"
+        >
+          Register here
+        </button>
+      </p>
     </div>
   );
 }
