@@ -32,8 +32,9 @@ coverage/
 *.coverage
 
 # Data artifacts
-/data/*
-*.db
+/data/*.jpg
+/data/workout_knowledge_base_100.json
+
 
 # Model files (if stored locally)
 *.pt

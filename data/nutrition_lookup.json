@@ -1,0 +1,507 @@
+{
+    "apple pie": {
+        "calories": 773,
+        "protein": 36.9,
+        "fat": 26.2
+    },
+    "baby back ribs": {
+        "calories": 535,
+        "protein": 14.7,
+        "fat": 24.4
+    },
+    "baklava": {
+        "calories": 150,
+        "protein": 34.5,
+        "fat": 24.6
+    },
+    "beef carpaccio": {
+        "calories": 366,
+        "protein": 36.9,
+        "fat": 18.2
+    },
+    "beef tartare": {
+        "calories": 351,
+        "protein": 28.5,
+        "fat": 9.4
+    },
+    "beet salad": {
+        "calories": 465,
+        "protein": 22.8,
+        "fat": 18.2
+    },
+    "beignets": {
+        "calories": 531,
+        "protein": 17.2,
+        "fat": 8.4
+    },
+    "bibimbap": {
+        "calories": 635,
+        "protein": 23.3,
+        "fat": 32.5
+    },
+    "bread pudding": {
+        "calories": 664,
+        "protein": 29.6,
+        "fat": 29.4
+    },
+    "breakfast burrito": {
+        "calories": 560,
+        "protein": 17.4,
+        "fat": 25.0
+    },
+    "bruschetta": {
+        "calories": 794,
+        "protein": 23.5,
+        "fat": 30.8
+    },
+    "caesar salad": {
+        "calories": 800,
+        "protein": 14.1,
+        "fat": 8.6
+    },
+    "cannoli": {
+        "calories": 579,
+        "protein": 35.3,
+        "fat": 31.2
+    },
+    "caprese salad": {
+        "calories": 246,
+        "protein": 10.0,
+        "fat": 11.3
+    },
+    "carrot cake": {
+        "calories": 549,
+        "protein": 33.5,
+        "fat": 17.7
+    },
+    "ceviche": {
+        "calories": 658,
+        "protein": 29.5,
+        "fat": 34.2
+    },
+    "cheesecake": {
+        "calories": 387,
+        "protein": 8.8,
+        "fat": 13.4
+    },
+    "cheese plate": {
+        "calories": 737,
+        "protein": 11.3,
+        "fat": 34.2
+    },
+    "chicken curry": {
+        "calories": 610,
+        "protein": 29.4,
+        "fat": 10.7
+    },
+    "chicken quesadilla": {
+        "calories": 195,
+        "protein": 32.3,
+        "fat": 34.5
+    },
+    "chicken wings": {
+        "calories": 498,
+        "protein": 9.6,
+        "fat": 33.1
+    },
+    "chocolate cake": {
+        "calories": 720,
+        "protein": 22.5,
+        "fat": 17.1
+    },
+    "chocolate mousse": {
+        "calories": 379,
+        "protein": 29.5,
+        "fat": 14.6
+    },
+    "churros": {
+        "calories": 362,
+        "protein": 30.6,
+        "fat": 17.4
+    },
+    "clam chowder": {
+        "calories": 158,
+        "protein": 23.9,
+        "fat": 37.9
+    },
+    "club sandwich": {
+        "calories": 379,
+        "protein": 5.4,
+        "fat": 24.8
+    },
+    "crab cakes": {
+        "calories": 794,
+        "protein": 39.5,
+        "fat": 30.6
+    },
+    "creme brulee": {
+        "calories": 531,
+        "protein": 23.3,
+        "fat": 12.9
+    },
+    "croque madame": {
+        "calories": 555,
+        "protein": 19.4,
+        "fat": 8.0
+    },
+    "cup cakes": {
+        "calories": 685,
+        "protein": 38.6,
+        "fat": 22.9
+    },
+    "deviled eggs": {
+        "calories": 272,
+        "protein": 3.9,
+        "fat": 10.3
+    },
+    "donuts": {
+        "calories": 689,
+        "protein": 21.0,
+        "fat": 19.9
+    },
+    "dumplings": {
+        "calories": 363,
+        "protein": 13.6,
+        "fat": 23.1
+    },
+    "edamame": {
+        "calories": 609,
+        "protein": 33.5,
+        "fat": 25.1
+    },
+    "eggs benedict": {
+        "calories": 848,
+        "protein": 32.1,
+        "fat": 19.9
+    },
+    "escargots": {
+        "calories": 341,
+        "protein": 22.6,
+        "fat": 5.5
+    },
+    "falafel": {
+        "calories": 716,
+        "protein": 3.7,
+        "fat": 15.3
+    },
+    "filet mignon": {
+        "calories": 649,
+        "protein": 13.0,
+        "fat": 22.8
+    },
+    "fish and chips": {
+        "calories": 575,
+        "protein": 13.7,
+        "fat": 27.3
+    },
+    "foie gras": {
+        "calories": 430,
+        "protein": 21.6,
+        "fat": 39.1
+    },
+    "french fries": {
+        "calories": 157,
+        "protein": 34.1,
+        "fat": 8.0
+    },
+    "french onion soup": {
+        "calories": 401,
+        "protein": 13.7,
+        "fat": 22.2
+    },
+    "french toast": {
+        "calories": 399,
+        "protein": 27.4,
+        "fat": 31.8
+    },
+    "fried calamari": {
+        "calories": 897,
+        "protein": 6.2,
+        "fat": 27.4
+    },
+    "fried rice": {
+        "calories": 281,
+        "protein": 21.0,
+        "fat": 35.2
+    },
+    "frozen yogurt": {
+        "calories": 232,
+        "protein": 15.9,
+        "fat": 5.7
+    },
+    "garlic bread": {
+        "calories": 229,
+        "protein": 38.2,
+        "fat": 37.0
+    },
+    "gnocchi": {
+        "calories": 712,
+        "protein": 39.0,
+        "fat": 16.1
+    },
+    "greek salad": {
+        "calories": 248,
+        "protein": 22.0,
+        "fat": 26.2
+    },
+    "grilled cheese sandwich": {
+        "calories": 370,
+        "protein": 12.8,
+        "fat": 11.3
+    },
+    "grilled salmon": {
+        "calories": 871,
+        "protein": 29.5,
+        "fat": 5.1
+    },
+    "guacamole": {
+        "calories": 839,
+        "protein": 35.3,
+        "fat": 29.1
+    },
+    "gyoza": {
+        "calories": 653,
+        "protein": 7.4,
+        "fat": 9.8
+    },
+    "hamburger": {
+        "calories": 883,
+        "protein": 28.1,
+        "fat": 16.2
+    },
+    "hot and sour soup": {
+        "calories": 801,
+        "protein": 15.3,
+        "fat": 7.6
+    },
+    "hot dog": {
+        "calories": 740,
+        "protein": 31.9,
+        "fat": 37.4
+    },
+    "huevos rancheros": {
+        "calories": 154,
+        "protein": 9.8,
+        "fat": 11.5
+    },
+    "hummus": {
+        "calories": 733,
+        "protein": 27.1,
+        "fat": 9.4
+    },
+    "ice cream": {
+        "calories": 745,
+        "protein": 38.7,
+        "fat": 37.0
+    },
+    "lasagna": {
+        "calories": 659,
+        "protein": 17.8,
+        "fat": 11.7
+    },
+    "lobster bisque": {
+        "calories": 335,
+        "protein": 9.3,
+        "fat": 27.1
+    },
+    "lobster roll sandwich": {
+        "calories": 290,
+        "protein": 29.7,
+        "fat": 15.3
+    },
+    "macaroni and cheese": {
+        "calories": 496,
+        "protein": 21.6,
+        "fat": 33.6
+    },
+    "macarons": {
+        "calories": 766,
+        "protein": 25.8,
+        "fat": 25.0
+    },
+    "miso soup": {
+        "calories": 393,
+        "protein": 26.9,
+        "fat": 30.0
+    },
+    "mussels": {
+        "calories": 422,
+        "protein": 13.5,
+        "fat": 32.0
+    },
+    "nachos": {
+        "calories": 248,
+        "protein": 5.1,
+        "fat": 17.6
+    },
+    "omelette": {
+        "calories": 807,
+        "protein": 32.3,
+        "fat": 24.1
+    },
+    "onion rings": {
+        "calories": 329,
+        "protein": 30.3,
+        "fat": 36.6
+    },
+    "oysters": {
+        "calories": 344,
+        "protein": 12.9,
+        "fat": 32.5
+    },
+    "pad thai": {
+        "calories": 497,
+        "protein": 3.6,
+        "fat": 19.6
+    },
+    "paella": {
+        "calories": 520,
+        "protein": 29.2,
+        "fat": 14.8
+    },
+    "pancakes": {
+        "calories": 496,
+        "protein": 23.2,
+        "fat": 20.9
+    },
+    "panna cotta": {
+        "calories": 212,
+        "protein": 10.3,
+        "fat": 15.7
+    },
+    "peking duck": {
+        "calories": 466,
+        "protein": 39.1,
+        "fat": 4.8
+    },
+    "pho": {
+        "calories": 674,
+        "protein": 19.8,
+        "fat": 29.4
+    },
+    "pizza": {
+        "calories": 479,
+        "protein": 24.0,
+        "fat": 28.9
+    },
+    "pork chop": {
+        "calories": 336,
+        "protein": 38.7,
+        "fat": 15.3
+    },
+    "poutine": {
+        "calories": 320,
+        "protein": 7.2,
+        "fat": 31.6
+    },
+    "prime rib": {
+        "calories": 894,
+        "protein": 30.6,
+        "fat": 19.8
+    },
+    "pulled pork sandwich": {
+        "calories": 303,
+        "protein": 23.3,
+        "fat": 11.7
+    },
+    "ramen": {
+        "calories": 823,
+        "protein": 28.8,
+        "fat": 23.7
+    },
+    "ravioli": {
+        "calories": 563,
+        "protein": 9.0,
+        "fat": 19.6
+    },
+    "red velvet cake": {
+        "calories": 183,
+        "protein": 32.7,
+        "fat": 3.5
+    },
+    "risotto": {
+        "calories": 745,
+        "protein": 10.3,
+        "fat": 31.5
+    },
+    "samosa": {
+        "calories": 460,
+        "protein": 33.4,
+        "fat": 17.2
+    },
+    "sashimi": {
+        "calories": 216,
+        "protein": 10.7,
+        "fat": 14.5
+    },
+    "scallops": {
+        "calories": 418,
+        "protein": 28.7,
+        "fat": 20.9
+    },
+    "seaweed salad": {
+        "calories": 826,
+        "protein": 38.6,
+        "fat": 19.5
+    },
+    "shrimp and grits": {
+        "calories": 706,
+        "protein": 20.0,
+        "fat": 9.1
+    },
+    "spaghetti bolognese": {
+        "calories": 834,
+        "protein": 25.5,
+        "fat": 31.1
+    },
+    "spaghetti carbonara": {
+        "calories": 745,
+        "protein": 20.8,
+        "fat": 18.5
+    },
+    "spring rolls": {
+        "calories": 611,
+        "protein": 32.7,
+        "fat": 12.5
+    },
+    "steak": {
+        "calories": 189,
+        "protein": 7.2,
+        "fat": 36.1
+    },
+    "strawberry shortcake": {
+        "calories": 632,
+        "protein": 12.3,
+        "fat": 13.0
+    },
+    "sushi": {
+        "calories": 400,
+        "protein": 37.5,
+        "fat": 35.6
+    },
+    "tacos": {
+        "calories": 208,
+        "protein": 30.4,
+        "fat": 4.1
+    },
+    "takoyaki": {
+        "calories": 437,
+        "protein": 24.9,
+        "fat": 19.9
+    },
+    "tiramisu": {
+        "calories": 601,
+        "protein": 3.4,
+        "fat": 39.8
+    },
+    "tuna tartare": {
+        "calories": 311,
+        "protein": 31.4,
+        "fat": 8.7
+    },
+    "waffles": {
+        "calories": 248,
+        "protein": 24.5,
+        "fat": 34.5
+    }
+}
