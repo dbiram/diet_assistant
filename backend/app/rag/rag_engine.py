@@ -57,4 +57,5 @@ def generate_answer(profile: dict, question: str) -> str:
 
     output = generate_text(prompt)
     answer = output.replace(prompt, "").strip()
-    return answer
+    result = answer.replace("Answer:", "").strip()
+    return result

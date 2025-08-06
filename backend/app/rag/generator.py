@@ -1,14 +1,10 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
-print("Loading Mistral 7B...")
+print("Loading TinyLlama 1.1B Chat...")
 
-# Load tokenizer & model
-tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
-model = AutoModelForCausalLM.from_pretrained(
-    "mistralai/Mistral-7B-Instruct-v0.1",
-    torch_dtype="auto",
-    device_map="auto"
-)
+# Load TinyLlama tokenizer & model
+tokenizer = AutoTokenizer.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+model = AutoModelForCausalLM.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
 
 # Load text generation pipeline (global)
 generator_pipeline = pipeline(
