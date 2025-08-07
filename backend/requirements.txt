@@ -1,8 +1,7 @@
 fastapi
 uvicorn
 langchain
-langchain-community
-openai
+langchain_community
 faiss-cpu
 transformers
 sentence-transformers
@@ -10,9 +9,7 @@ torch
 torchvision
 passlib
 pillow
-python-multipart
 python-jose
-accelerate
-rank_bm25
-timm
+python-multipart
 bcrypt
+rank_bm25
