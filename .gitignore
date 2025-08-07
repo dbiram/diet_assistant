@@ -34,6 +34,7 @@ coverage/
 # Data artifacts
 /data/*.jpg
 /data/workout_knowledge_base_100.json
+backend/diet.db
 
 
 # Model files (if stored locally)
