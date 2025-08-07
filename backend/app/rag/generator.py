@@ -17,7 +17,14 @@ def generate_text(prompt: str, max_length=512):
     payload = {
         "model": MISTRAL_MODEL,
         "messages": [
-            {"role": "system", "content": "You are a helpful diet assistant."},
+            {"role": "system", "content": (
+                "You are a concise and expert diet assistant. "
+                "Always provide direct answers without repeating the user’s question, "
+                "without mentioning the user's profile explicitly. "
+                "Do not say 'based on the information provided' or similar phrases. "
+                "Avoid unnecessary introductions or summaries. "
+                "Keep your answer helpful but brief (1–3 sentences)."
+            )},
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.7,
