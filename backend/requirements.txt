@@ -11,5 +11,6 @@ passlib
 pillow
 python-jose
 python-multipart
+python-dotenv
 bcrypt
 rank_bm25

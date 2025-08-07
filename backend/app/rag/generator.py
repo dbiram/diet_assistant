@@ -1,18 +1,32 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import os
+import requests
 
-print("Loading TinyLlama 1.1B Chat...")
 
-# Load TinyLlama tokenizer & model
-tokenizer = AutoTokenizer.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
-model = AutoModelForCausalLM.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
+MISTRAL_MODEL = "mistral-small-latest"
 
-# Load text generation pipeline (global)
-generator_pipeline = pipeline(
-    "text-generation",
-    model=model,
-    tokenizer=tokenizer
-)
 
 def generate_text(prompt: str, max_length=512):
-    outputs = generator_pipeline(prompt, max_length=max_length, do_sample=False)
-    return outputs[0]["generated_text"]
+    mistral_api_key = os.environ.get("MISTRAL_API_KEY", None)
+    if not mistral_api_key:
+        raise EnvironmentError("Missing MISTRAL_API_KEY environment variable.")
+    headers = {
+        "Authorization": f"Bearer {mistral_api_key}"
+    }
+
+    payload = {
+        "model": MISTRAL_MODEL,
+        "messages": [
+            {"role": "system", "content": "You are a helpful diet assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": max_length
+    }
+
+    response = requests.post(MISTRAL_API_URL, headers=headers, json=payload)
+    if response.status_code != 200:
+        raise RuntimeError(f"Mistral API error {response.status_code}: {response.text}")
+
+    data = response.json()
+    return data["choices"][0]["message"]["content"]

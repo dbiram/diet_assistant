@@ -54,7 +54,7 @@ def generate_answer(profile: dict, question: str) -> str:
         f"User's profile:\n{profile}\n\n"
         f"Answer the user's question:\n{question}"
     )
-
+    print(f"Generated prompt:\n{prompt}\n")
     output = generate_text(prompt)
     answer = output.replace(prompt, "").strip()
     result = answer.replace("Answer:", "").strip()
