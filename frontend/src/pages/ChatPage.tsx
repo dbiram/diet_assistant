@@ -11,8 +11,8 @@ export default function ChatPage() {
   const [chatResponse, setChatResponse] = useState("");
   const [loadingChat, setLoadingChat] = useState(false);
 
-  const [image, setImage] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [, setImage] = useState<File | null>(null);
+  const [imagePreviewUrl, ] = useState<string | null>(null);
   const [imageResult, setImageResult] = useState<{
     label: string;
     nutrition: {
