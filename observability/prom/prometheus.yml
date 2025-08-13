@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "diet-assistant-prod"
+    scheme: https
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["diet-assistant.onrender.com"]
+
+remote_write:
+  - url: ${GRAFANA_REMOTE_WRITE_URL}
+    basic_auth:
+      username: ${GRAFANA_REMOTE_WRITE_USERNAME}
+      password: ${GRAFANA_REMOTE_WRITE_PASSWORD}
