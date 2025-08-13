@@ -118,6 +118,42 @@ DB_PATH=/var/data/diet.db  # or use default
 
 - Frontend: Deployed as static site from frontend/ with Tailwind + Vite
 
+## Observability & Monitoring
+This project includes **LLM usage monitoring** and **application metrics collection** in both development and production environments.
+
+### Local Development Dashboard
+
+- Uses Prometheus and Grafana locally.
+
+- Metrics exposed by backend at /metrics (FastAPI + Prometheus client).
+
+- Grafana dashboard shows:
+
+    . LLM request count & latency.
+
+    . Tokens in/out per request.
+
+    . Error rates.
+
+### Production Dashboard
+
+- Metrics sent to Grafana Cloud Hosted Prometheus via Prometheus Remote Write.
+
+- Prometheus runs as a Render Web Service and scrapes metrics from the deployed backend.
+
+### Why This Matters
+- Proactive monitoring of LLM performance (latency, errors).
+
+- Usage analytics (tokens in/out) for cost management.
+
+- Incident detection (e.g., API downtime, degraded performance).
+
+- Dashboard available in Grafana Cloud for real-time insights.
+
+Here’s an example view of the production LLM monitoring dashboard:
+
+![Grafana LLM Dashboard](grafana_dashboard.png)
+
 ## Future Improvements
 - Replace image classification with modern multi-modal models (e.g. Gemini, GPT-4V)
 
