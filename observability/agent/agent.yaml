@@ -1,5 +1,5 @@
 metrics:
-  wal_directory: /tmp/agent-wal
+  wal_directory: /var/tmp/agent-wal
   global:
     scrape_interval: 15s
 
@@ -10,7 +10,7 @@ metrics:
           scheme: https
           metrics_path: /metrics
           static_configs:
-            - targets: ["diet-assistant.onrender.com"]  # e.g. diet-assistant.onrender.com
+            - targets: ["diet-assistant.onrender.com"]  
       remote_write:
         - url: ${GRAFANA_REMOTE_WRITE_URL}
           basic_auth:
