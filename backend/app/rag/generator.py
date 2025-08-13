@@ -15,7 +15,7 @@ MISTRAL_MODEL = "mistral-small-latest"
 
 
 def generate_text(prompt: str, user_id: int = None, db: Session = None, max_length=512):
-    mistral_api_key = "09aHMRiR0RpPbIzhvtPkn9338tFpG2g4"
+    mistral_api_key = os.environ.get("MISTRAL_API_KEY", None)
     if not mistral_api_key:
         raise EnvironmentError("Missing MISTRAL_API_KEY environment variable.")
     headers = {
