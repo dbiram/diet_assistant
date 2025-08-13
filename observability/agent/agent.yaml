@@ -1,5 +1,5 @@
 metrics:
-  wal_directory: /var/tmp/agent-wal
+  wal_directory: /tmp/agent-wal
   global:
     scrape_interval: 15s
 

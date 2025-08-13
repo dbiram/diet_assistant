@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Download a recent linux AMD64 agent binary (adjust version if needed)
-AGENT_VERSION="v0.38.2"
-curl -L -o /var/tmp/agent.tar.gz https://github.com/grafana/agent/releases/download/${AGENT_VERSION}/grafana-agent-${AGENT_VERSION}-linux-amd64.tar.gz
-mkdir -p /var/opt/agent
-tar -xzf /var/tmp/agent.tar.gz -C /var/opt/agent --strip-components=1
+AGENT_VERSION=v0.38.2
+AGENT_DIR=/var/tmp/agent
+CONFIG_PATH=/opt/render/project/src/observability/agent/agent.yaml
 
-# Run the agent with our config
-exec /var/opt/agent/agent --config.file=/var/opt/config/agent.yaml
+echo "[INFO] Starting Grafana Agent..."
+mkdir -p "$AGENT_DIR"
+
+if [ ! -f "$AGENT_DIR/agent" ]; then
+  echo "[INFO] Downloading Grafana Agent $AGENT_VERSION..."
+  curl -fsSL -o "$AGENT_DIR/agent.tar.gz" \
+    "https://github.com/grafana/agent/releases/download/${AGENT_VERSION}/grafana-agent-${AGENT_VERSION}-linux-amd64.tar.gz"
+  tar -xzf "$AGENT_DIR/agent.tar.gz" -C "$AGENT_DIR" --strip-components=1
+fi
+
+exec "$AGENT_DIR/agent" --config.file="$CONFIG_PATH"
