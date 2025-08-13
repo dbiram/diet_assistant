@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from app.api import endpoints, profile_routes
 from app.database import init_db
 from app.auth import routes as auth_routes
@@ -48,3 +49,7 @@ app.add_middleware(
 app.include_router(endpoints.router)
 app.include_router(auth_routes.router)
 app.include_router(profile_routes.router)
+
+@app.get("/metrics")
+def metrics():
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)

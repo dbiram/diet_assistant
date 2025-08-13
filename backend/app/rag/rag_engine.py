@@ -5,6 +5,8 @@ from app.rag.vector_store import (
 )
 from app.rag.reranker import rerank
 from app.rag.generator import generate_text
+from app.auth.models import User
+from sqlalchemy.orm import Session
 
 def split_into_subqueries(question: str) -> list:
     """
@@ -43,9 +45,9 @@ def multi_hop_retrieve_with_rerank(profile: dict, question: str, initial_k=20, r
 
     return final_passages
 
-def generate_answer(profile: dict, question: str) -> str:
+def generate_answer(profile: dict, question: str, user: User, db: Session) -> str:
     # Retrieve relevant documents
-    retrieved_docs = multi_hop_retrieve_with_rerank(profile, question, initial_k=30, rerank_top_k=3)
+    retrieved_docs = multi_hop_retrieve_with_rerank(profile, question, initial_k=30, rerank_top_k=5)
     context = "\n".join(retrieved_docs)
 
     # Build prompt
@@ -55,7 +57,7 @@ def generate_answer(profile: dict, question: str) -> str:
         f"Answer the user's question:\n{question}"
     )
     print(f"Generated prompt:\n{prompt}\n")
-    output = generate_text(prompt)
+    output = generate_text(prompt, user_id=user.id, db=db, max_length=512)
     answer = output.replace(prompt, "").strip()
     result = answer.replace("Answer:", "").strip()
     return result

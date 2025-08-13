@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
+from sqlalchemy import func
 from app.rag.rag_engine import generate_answer
 from fastapi import File, UploadFile
 from app.vision.food_classifier import classify_food
@@ -7,7 +8,7 @@ from app.vision.nutrition_lookup import get_nutrition
 from datetime import datetime
 
 from sqlalchemy.orm import Session
-from app.database import MealLog, WorkoutLog, get_db
+from app.database import LLMLog, MealLog, WorkoutLog, get_db
 from app.api.schemas import MealLogInput, WorkoutLogInput
 from app.auth.dependencies import get_current_user
 from app.auth.models import User
@@ -28,13 +29,13 @@ class ChatInput(BaseModel):
     prompt: str
 
 @router.post("/ask_diet_assistant")
-async def ask_diet_assistant(request: QuestionRequest):
+async def ask_diet_assistant(request: QuestionRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     profile = {
         "age": request.age,
         "gender": request.gender,
         "activity_level": request.activity_level
     }
-    answer = generate_answer(profile, request.question)
+    answer = generate_answer(profile, request.question, current_user, db)
     return {"answer": answer}
 
 @router.post("/estimate_nutrition_from_image")
@@ -130,5 +131,19 @@ def chat(
             "gender": profile.gender,
             "activity_level": profile.activity_level
         }
-        answer = generate_answer(profile_dict, prompt)
+        answer = generate_answer(profile_dict, prompt, current_user, db)
         return {"response": answer}
+    
+@router.get("/llm-stats")
+def llm_stats(db: Session = Depends(get_db)):
+    total_requests = db.query(LLMLog).count()
+    avg_latency = db.query(func.avg(LLMLog.latency_seconds)).scalar()
+    total_tokens = db.query(func.sum(LLMLog.tokens_in + LLMLog.tokens_out)).scalar()
+    errors = db.query(LLMLog).filter(LLMLog.status == "error").count()
+
+    return {
+        "total_requests": total_requests,
+        "avg_latency_sec": round(avg_latency or 0, 2),
+        "total_tokens": total_tokens or 0,
+        "errors": errors
+    }

@@ -13,3 +13,4 @@ python-multipart
 python-dotenv
 bcrypt
 rank_bm25
+prometheus-client
