@@ -125,7 +125,7 @@ useEffect(() => {
           >
             <option value="">Select activity level</option>
             <option value="low">Low</option>
-            <option value="medium">Medium</option>
+            <option value="moderate">Moderate</option>
             <option value="high">High</option>
           </select>
         </div>
